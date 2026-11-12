@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marco Terra | Topografia e Regularização Fundiária</title>
+<meta name="description" content="Georreferenciamento, mapeamento com drones, CAR e regularização fundiária para propriedades rurais.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde-900: #071a12;
+    --verde-700: #123524;
+    --verde-500: #2d6a4f;
+    --ouro: #e6b94f;
+    --ouro-escuro: #c49a30;
+    --branco: #ffffff;
+    --fundo: #f8f9f6;
+    --cinza-texto: #6b7280;
+    --raio: 16px;
+    --fonte: "Outfit", sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: var(--fonte);
+    color: var(--verde-900);
+    background: var(--fundo);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, p { margin: 0; }
+  a { color: inherit; text-decoration: none; }
+
+  .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- Animações Globais ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+  }
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .delay-1 { transition-delay: 0.1s; }
+  .delay-2 { transition-delay: 0.2s; }
+  .delay-3 { transition-delay: 0.3s; }
+
+  /* ---------- Botões ---------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 32px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.05rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  .btn-ouro { 
+    background: var(--ouro); 
+    color: var(--verde-900); 
+    box-shadow: 0 10px 20px -10px var(--ouro); 
+  }
+  .btn-ouro:hover { 
+    background: var(--branco); 
+    transform: translateY(-3px); 
+    box-shadow: 0 15px 25px -10px rgba(255,255,255,0.4); 
+  }
+  .btn-outline {
+    border: 1px solid rgba(255,255,255,0.3);
+    color: var(--branco);
+    backdrop-filter: blur(5px);
+  }
+  .btn-outline:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: var(--branco);
+  }
+
+  /* ---------- Header ---------- */
+  header {
+    position: fixed; top: 0; width: 100%; z-index: 50;
+    background: rgba(7, 26, 18, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 15px 0;
+    transition: all 0.3s ease;
+  }
+  .barra { display: flex; align-items: center; justify-content: space-between; }
+  .logo { display: flex; align-items: center; gap: 12px; color: var(--branco); font-weight: 800; font-size: 1.3rem; letter-spacing: 0.5px; }
+  .logo-marca { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--ouro), var(--ouro-escuro)); display: grid; place-items: center; }
+  .logo-marca svg { width: 20px; height: 20px; stroke: var(--verde-900); }
+  .logo small { display: block; font-weight: 300; font-size: 0.7rem; color: #a3b1a8; margin-top: -2px; letter-spacing: 1px; text-transform: uppercase; }
+
+  nav { display: none; gap: 32px; }
+  nav a { color: #d1d5db; font-size: 0.95rem; font-weight: 400; transition: color 0.2s; position: relative; }
+  nav a:hover { color: var(--ouro); }
+  nav a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -6px; left: 0; background-color: var(--ouro); transition: width 0.3s; }
+  nav a:hover::after { width: 100%; }
+
+  @media (min-width: 768px) { nav { display: flex; } }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative; 
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    color: var(--branco);
+    background-color: var(--verde-900);
+    padding-top: 80px;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    background-image: url("https://images.unsplash.com/photo-1574943320219-553eb213f72d?auto=format&fit=crop&w=2000&q=80");
+    background-size: cover;
+    background-position: center;
+    opacity: 0.4;
+    z-index: 1;
+    animation: zoomOut 20s infinite alternate;
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(7,26,18,0.95) 0%, rgba(7,26,18,0.7) 50%, rgba(7,26,18,0.2) 100%);
+    z-index: 2;
+  }
+  @keyframes zoomOut { from { transform: scale(1.1); } to { transform: scale(1); } }
+  
+  .hero .container { position: relative; z-index: 3; }
+  .hero-badge { display: inline-block; padding: 6px 16px; background: rgba(230, 185, 79, 0.15); color: var(--ouro); border-radius: 30px; font-size: 0.85rem; font-weight: 600; margin-bottom: 24px; border: 1px solid rgba(230, 185, 79, 0.3); }
+  .hero h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.1; font-weight: 800; max-width: 15ch; margin-bottom: 24px; }
+  .hero p { max-width: 50ch; font-size: 1.1rem; color: #a3b1a8; font-weight: 300; margin-bottom: 40px; line-height: 1.8; }
+  .hero-acoes { display: flex; gap: 16px; flex-wrap: wrap; }
+
+  /* ---------- Serviços (Glassmorphism) ---------- */
+  #servicos { padding: 100px 0; background: var(--fundo); position: relative; }
+  .secao-header { text-align: center; margin-bottom: 64px; }
+  .secao-header h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; color: var(--verde-900); }
+  .secao-header p { color: var(--cinza-texto); margin-top: 16px; font-size: 1.1rem; }
+
+  .grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+  .servico {
+    background: var(--branco);
+    border-radius: var(--raio);
+    padding: 40px 32px;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .servico::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--ouro); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease;
+  }
+  .servico:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(7, 26, 18, 0.08); }
+  .servico:hover::before { transform: scaleX(1); }
+  
+  .icone { width: 64px; height: 64px; border-radius: 16px; background: rgba(18, 53, 36, 0.05); display: grid; place-items: center; margin-bottom: 24px; color: var(--verde-700); }
+  .icone svg { width: 32px; height: 32px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+  .servico h3 { font-size: 1.3rem; margin-bottom: 12px; font-weight: 800; color: var(--verde-900); }
+  .servico p { color: var(--cinza-texto); font-size: 1rem; line-height: 1.6; }
+
+  /* ---------- CTA Faixa ---------- */
+  .faixa { background: var(--verde-900); padding: 80px 0; color: var(--branco); text-align: center; position: relative; overflow: hidden; }
+  .faixa::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(230,185,79,0.1) 0%, rgba(7,26,18,0) 70%); pointer-events: none; }
+  .faixa h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; margin-bottom: 32px; }
+
+  /* ---------- Footer ---------- */
+  footer { background: #040e0a; color: #a3b1a8; padding: 80px 0 30px; }
+  .rodape-grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 48px; margin-bottom: 64px; }
+  footer h3 { color: var(--branco); font-size: 1.2rem; margin-bottom: 24px; font-weight: 600; }
+  footer ul { list-style: none; padding: 0; display: grid; gap: 12px; }
+  footer a:hover { color: var(--ouro); }
+  .direitos { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 24px; text-align: center; font-size: 0.9rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container barra">
+    <a href="#" class="logo">
+      <span class="logo-marca">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 21h16L12 3Z"/><path d="M12 10v5"/></svg>
+      </span>
+      <span>Marco Terra<small>Topografia Avançada</small></span>
+    </a>
+    <nav>
+      <a href="#inicio">Início</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="inicio">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="container reveal">
+      <span class="hero-badge">CNAE 74.20-0-02 e Regularização</span>
+      <h1>Precisão em campo.<br><span style="color: var(--ouro);">Segurança no papel.</span></h1>
+      <p>Mapeamento com drones, georreferenciamento e regularização ambiental. Documentamos sua propriedade rural com tecnologia de ponta para você produzir sem riscos.</p>
+      <div class="hero-acoes">
+        <a class="btn btn-ouro" href="https://wa.me/5500000000000" target="_blank">Falar com Especialista</a>
+        <a class="btn btn-outline" href="#servicos">Ver Serviços</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="servicos">
+    <div class="container">
+      <div class="secao-header reveal">
+        <h2>Inteligência Fundiária</h2>
+        <p>Soluções completas para propriedades rurais, exigidas por lei e pelo mercado.</p>
+      </div>
+
+      <div class="grade">
+        <article class="servico reveal delay-1">
+          <div class="icone"><svg viewBox="0 0 24 24"><circle cx="5" cy="5" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M7 6l2.5 2.5M17 6l-2.5 2.5M7 18l2.5-2.5M17 18l-2.5-2.5"/></svg></div>
+          <h3>Mapeamento Aéreo</h3>
+          <p>Uso de drones para aerofotogrametria. Modelos 3D, cálculo exato de áreas e altimetria em uma fração do tempo da topografia tradicional.</p>
+        </article>
+
+        <article class="servico reveal delay-2">
+          <div class="icone"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <h3>Georreferenciamento</h3>
+          <p>Medição de limites conforme normas do INCRA. Planta, memorial descritivo e certificação no SIGEF para blindagem jurídica da terra.</p>
+        </article>
+
+        <article class="servico reveal delay-3">
+          <div class="icone"><svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg></div>
+          <h3>CAR e Ambiental</h3>
+          <p>Inscrição e retificação no Cadastro Ambiental Rural. Identificação precisa de Reserva Legal e APPs para liberação de crédito agrícola.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="faixa reveal">
+    <div class="container">
+      <h2>Sua terra vale milhões. A documentação dela não pode ser amadora.</h2>
+      <a class="btn btn-ouro" href="https://wa.me/5500000000000" target="_blank">Agendar Consultoria</a>
+    </div>
+  </section>
+</main>
+
+<footer id="contato">
+  <div class="container">
+    <div class="rodape-grade reveal">
+      <div>
+        <h3>Marco Terra</h3>
+        <p>Tecnologia aplicada à regularização de propriedades rurais.</p>
+      </div>
+      <div>
+        <h3>Contato</h3>
+        <ul>
+          <li>Palmas - Tocantins</li>
+          <li>contato@marcoterra.com.br</li>
+        </ul>
+      </div>
+    </div>
+    <p class="direitos">&copy; 2026 Marco Terra Topografia. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<!-- Script para a mágica da animação de scroll -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach((el) => {
+      observer.observe(el);
+    });
+  });
+</script>
+</body>
+</html>

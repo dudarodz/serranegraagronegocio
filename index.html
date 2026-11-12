@@ -3,288 +3,710 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Marco Terra | Topografia e Regularização Fundiária</title>
-<meta name="description" content="Georreferenciamento, mapeamento com drones, CAR e regularização fundiária para propriedades rurais.">
+<title>Serra Negra Agronegócio | Regularização Fundiária e Topografia</title>
+<meta name="description" content="Engenharia de precisão, mapeamento com drones, georreferenciamento INCRA e regularização ambiental no Tocantins e Matopiba.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --verde-900: #071a12;
-    --verde-700: #123524;
-    --verde-500: #2d6a4f;
-    --ouro: #e6b94f;
-    --ouro-escuro: #c49a30;
+    --verde-950: #06130d;
+    --verde-900: #0b2016;
+    --verde-800: #133324;
+    --verde-600: #22543d;
+    --bronze: #c2922e;
+    --bronze-hover: #a87b1f;
+    --bronze-claro: #f5ebd6;
     --branco: #ffffff;
-    --fundo: #f8f9f6;
-    --cinza-texto: #6b7280;
-    --raio: 16px;
-    --fonte: "Outfit", sans-serif;
+    --areia-fundo: #efece6;
+    --areia-borda: #d5d0c5;
+    --texto-escuro: #111827;
+    --texto-apoio: #4b5563;
+    --raio: 8px;
+    --fonte-corpo: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    --fonte-titulo: "Plus Jakarta Sans", sans-serif;
   }
 
   *, *::before, *::after { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
   body {
     margin: 0;
-    font-family: var(--fonte);
-    color: var(--verde-900);
-    background: var(--fundo);
+    font-family: var(--fonte-corpo);
+    color: var(--texto-escuro);
+    background: var(--areia-fundo);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
   }
-  h1, h2, h3, p { margin: 0; }
+  h1, h2, h3, h4, p { margin: 0; }
+  h1, h2, h3, h4 { font-family: var(--fonte-titulo); letter-spacing: -0.02em; }
   a { color: inherit; text-decoration: none; }
 
-  .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  .container { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 24px; }
 
-  /* ---------- Animações Globais ---------- */
-  .reveal {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
-  }
-  .reveal.active {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  .delay-1 { transition-delay: 0.1s; }
-  .delay-2 { transition-delay: 0.2s; }
-  .delay-3 { transition-delay: 0.3s; }
-
-  /* ---------- Botões ---------- */
+  /* ---------- Botões Corporativos ---------- */
   .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 16px 32px;
-    border-radius: 50px;
+    gap: 10px;
+    padding: 16px 28px;
+    border-radius: var(--raio);
     font-weight: 600;
-    font-size: 1.05rem;
-    transition: all 0.3s ease;
+    font-size: 0.98rem;
+    transition: background-color 0.2s ease, transform 0.15s ease, border-color 0.2s ease;
     cursor: pointer;
   }
-  .btn-ouro { 
-    background: var(--ouro); 
-    color: var(--verde-900); 
-    box-shadow: 0 10px 20px -10px var(--ouro); 
+  .btn-primario {
+    background: var(--bronze);
+    color: var(--verde-950);
+    font-weight: 700;
   }
-  .btn-ouro:hover { 
-    background: var(--branco); 
-    transform: translateY(-3px); 
-    box-shadow: 0 15px 25px -10px rgba(255,255,255,0.4); 
-  }
-  .btn-outline {
-    border: 1px solid rgba(255,255,255,0.3);
+  .btn-primario:hover {
+    background: var(--bronze-hover);
     color: var(--branco);
-    backdrop-filter: blur(5px);
+    transform: translateY(-2px);
   }
-  .btn-outline:hover {
-    background: rgba(255,255,255,0.1);
+  .btn-secundario {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: var(--branco);
+  }
+  .btn-secundario:hover {
+    background: rgba(255, 255, 255, 0.14);
     border-color: var(--branco);
   }
 
   /* ---------- Header ---------- */
   header {
-    position: fixed; top: 0; width: 100%; z-index: 50;
-    background: rgba(7, 26, 18, 0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 15px 0;
-    transition: all 0.3s ease;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--verde-950);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
-  .barra { display: flex; align-items: center; justify-content: space-between; }
-  .logo { display: flex; align-items: center; gap: 12px; color: var(--branco); font-weight: 800; font-size: 1.3rem; letter-spacing: 0.5px; }
-  .logo-marca { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--ouro), var(--ouro-escuro)); display: grid; place-items: center; }
-  .logo-marca svg { width: 20px; height: 20px; stroke: var(--verde-900); }
-  .logo small { display: block; font-weight: 300; font-size: 0.7rem; color: #a3b1a8; margin-top: -2px; letter-spacing: 1px; text-transform: uppercase; }
-
-  nav { display: none; gap: 32px; }
-  nav a { color: #d1d5db; font-size: 0.95rem; font-weight: 400; transition: color 0.2s; position: relative; }
-  nav a:hover { color: var(--ouro); }
-  nav a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -6px; left: 0; background-color: var(--ouro); transition: width 0.3s; }
-  nav a:hover::after { width: 100%; }
-
-  @media (min-width: 768px) { nav { display: flex; } }
-
-  /* ---------- Hero ---------- */
-  .hero {
-    position: relative; 
-    min-height: 100vh;
+  .nav-bar {
     display: flex;
     align-items: center;
-    color: var(--branco);
-    background-color: var(--verde-900);
-    padding-top: 80px;
+    justify-content: space-between;
+    height: 76px;
   }
-  .hero-bg {
-    position: absolute; inset: 0; width: 100%; height: 100%;
-    background-image: url("https://images.unsplash.com/photo-1574943320219-553eb213f72d?auto=format&fit=crop&w=2000&q=80");
+  .marca {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--branco);
+  }
+  .marca-icone {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    background: var(--bronze);
+    display: grid;
+    place-items: center;
+    color: var(--verde-950);
+    font-weight: 800;
+    font-size: 1.1rem;
+  }
+  .marca-texto strong {
+    display: block;
+    font-size: 1.15rem;
+    font-family: var(--fonte-titulo);
+    letter-spacing: -0.3px;
+  }
+  .marca-texto span {
+    display: block;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #9ca3af;
+    margin-top: -2px;
+  }
+  .menu-links {
+    display: none;
+    align-items: center;
+    gap: 28px;
+  }
+  .menu-links a {
+    color: #d1d5db;
+    font-size: 0.92rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .menu-links a:hover { color: var(--bronze); }
+  .btn-topo {
+    padding: 10px 18px;
+    font-size: 0.88rem;
+  }
+
+  @media (min-width: 768px) {
+    .menu-links { display: flex; }
+  }
+
+  /* ---------- Hero Section ---------- */
+  .hero {
+    position: relative;
+    background-color: var(--verde-950);
+    background-image:
+      linear-gradient(105deg, rgba(6, 19, 13, 0.96) 15%, rgba(11, 32, 22, 0.84) 60%, rgba(11, 32, 22, 0.65) 100%),
+      url("https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1920&q=80");
     background-size: cover;
     background-position: center;
-    opacity: 0.4;
-    z-index: 1;
-    animation: zoomOut 20s infinite alternate;
+    color: var(--branco);
+    padding: 84px 0 96px;
+    border-bottom: 4px solid var(--bronze);
   }
-  .hero-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(90deg, rgba(7,26,18,0.95) 0%, rgba(7,26,18,0.7) 50%, rgba(7,26,18,0.2) 100%);
-    z-index: 2;
+  .selo-topo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: rgba(194, 146, 46, 0.16);
+    border: 1px solid rgba(194, 146, 46, 0.45);
+    color: #e8c468;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 24px;
   }
-  @keyframes zoomOut { from { transform: scale(1.1); } to { transform: scale(1); } }
-  
-  .hero .container { position: relative; z-index: 3; }
-  .hero-badge { display: inline-block; padding: 6px 16px; background: rgba(230, 185, 79, 0.15); color: var(--ouro); border-radius: 30px; font-size: 0.85rem; font-weight: 600; margin-bottom: 24px; border: 1px solid rgba(230, 185, 79, 0.3); }
-  .hero h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.1; font-weight: 800; max-width: 15ch; margin-bottom: 24px; }
-  .hero p { max-width: 50ch; font-size: 1.1rem; color: #a3b1a8; font-weight: 300; margin-bottom: 40px; line-height: 1.8; }
-  .hero-acoes { display: flex; gap: 16px; flex-wrap: wrap; }
+  .hero h1 {
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    line-height: 1.12;
+    max-width: 18ch;
+    margin-bottom: 20px;
+  }
+  .hero h1 span { color: #e8c468; }
+  .hero p {
+    font-size: 1.1rem;
+    color: #d1d5db;
+    max-width: 54ch;
+    margin-bottom: 36px;
+    font-weight: 400;
+  }
+  .hero-botoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .barra-credibilidade {
+    margin-top: 56px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+  }
+  .item-cred strong {
+    display: block;
+    font-size: 1.25rem;
+    color: var(--branco);
+    font-family: var(--fonte-titulo);
+  }
+  .item-cred span {
+    font-size: 0.88rem;
+    color: #9ca3af;
+  }
 
-  /* ---------- Serviços (Glassmorphism) ---------- */
-  #servicos { padding: 100px 0; background: var(--fundo); position: relative; }
-  .secao-header { text-align: center; margin-bottom: 64px; }
-  .secao-header h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; color: var(--verde-900); }
-  .secao-header p { color: var(--cinza-texto); margin-top: 16px; font-size: 1.1rem; }
+  /* ---------- Cabeçalhos de Seção ---------- */
+  section { padding: 84px 0; }
+  .cabecalho-secao {
+    max-width: 640px;
+    margin-bottom: 48px;
+  }
+  .subtitulo-tag {
+    display: inline-block;
+    color: var(--verde-600);
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .cabecalho-secao h2 {
+    font-size: clamp(1.75rem, 3.5vw, 2.4rem);
+    color: var(--verde-950);
+    line-height: 1.2;
+  }
+  .cabecalho-secao p {
+    margin-top: 12px;
+    color: var(--texto-apoio);
+    font-size: 1.05rem;
+  }
 
-  .grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
-  .servico {
+  /* ---------- Seção: Gatilhos de Contratação (Foco em Prospecção) ---------- */
+  #situacoes {
     background: var(--branco);
+    border-bottom: 1px solid var(--areia-borda);
+  }
+  .grade-situacoes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  .card-situacao {
+    background: var(--areia-fundo);
+    border: 1px solid var(--areia-borda);
+    border-left: 4px solid var(--verde-800);
     border-radius: var(--raio);
-    padding: 40px 32px;
-    border: 1px solid rgba(0,0,0,0.05);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
-    transition: all 0.4s ease;
-    position: relative;
-    overflow: hidden;
+    padding: 24px;
   }
-  .servico::before {
-    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--ouro); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease;
+  .card-situacao h3 {
+    font-size: 1.1rem;
+    color: var(--verde-950);
+    margin-bottom: 8px;
   }
-  .servico:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(7, 26, 18, 0.08); }
-  .servico:hover::before { transform: scaleX(1); }
-  
-  .icone { width: 64px; height: 64px; border-radius: 16px; background: rgba(18, 53, 36, 0.05); display: grid; place-items: center; margin-bottom: 24px; color: var(--verde-700); }
-  .icone svg { width: 32px; height: 32px; stroke: currentColor; fill: none; stroke-width: 1.5; }
-  .servico h3 { font-size: 1.3rem; margin-bottom: 12px; font-weight: 800; color: var(--verde-900); }
-  .servico p { color: var(--cinza-texto); font-size: 1rem; line-height: 1.6; }
+  .card-situacao p {
+    font-size: 0.94rem;
+    color: var(--texto-apoio);
+  }
 
-  /* ---------- CTA Faixa ---------- */
-  .faixa { background: var(--verde-900); padding: 80px 0; color: var(--branco); text-align: center; position: relative; overflow: hidden; }
-  .faixa::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(230,185,79,0.1) 0%, rgba(7,26,18,0) 70%); pointer-events: none; }
-  .faixa h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; margin-bottom: 32px; }
+  /* ---------- Seção: Serviços Técnicos (Grid 2x2 Simétrico) ---------- */
+  #servicos {
+    background: var(--areia-fundo);
+  }
+  .grade-servicos {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  @media (min-width: 680px) {
+    .grade-servicos {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .card-servico {
+    background: var(--branco);
+    border: 1px solid var(--areia-borda);
+    border-radius: var(--raio);
+    padding: 32px;
+    box-shadow: 0 4px 12px rgba(6, 19, 13, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .card-servico:hover {
+    transform: translateY(-4px);
+    border-color: var(--bronze);
+  }
+  .servico-topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .icone-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    background: var(--verde-900);
+    color: #e8c468;
+    display: grid;
+    place-items: center;
+  }
+  .icone-box svg {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+  }
+  .numero-item {
+    font-family: var(--fonte-titulo);
+    font-weight: 800;
+    font-size: 0.85rem;
+    color: #9ca3af;
+  }
+  .card-servico h3 {
+    font-size: 1.25rem;
+    color: var(--verde-950);
+    margin-bottom: 10px;
+  }
+  .card-servico p {
+    color: var(--texto-apoio);
+    font-size: 0.96rem;
+    margin-bottom: 20px;
+  }
+  .link-card {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--verde-800);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .link-card:hover { color: var(--bronze-hover); }
+
+  /* ---------- Seção: Como Funciona (Processo) ---------- */
+  #processo {
+    background: var(--verde-900);
+    color: var(--branco);
+  }
+  #processo .cabecalho-secao h2 { color: var(--branco); }
+  #processo .cabecalho-secao p { color: #d1d5db; }
+  #processo .subtitulo-tag { color: #e8c468; }
+
+  .grade-passos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  .passo {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--raio);
+    padding: 28px;
+  }
+  .passo-num {
+    display: inline-block;
+    background: var(--bronze);
+    color: var(--verde-950);
+    font-weight: 800;
+    font-size: 0.85rem;
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+  .passo h3 {
+    font-size: 1.15rem;
+    margin-bottom: 10px;
+  }
+  .passo p {
+    color: #cbd5e1;
+    font-size: 0.94rem;
+  }
+
+  /* ---------- Chamada Final (Conversão) ---------- */
+  .cta-final {
+    background: var(--branco);
+    padding: 72px 0;
+    border-top: 1px solid var(--areia-borda);
+  }
+  .caixa-cta {
+    background: var(--verde-950);
+    color: var(--branco);
+    border-radius: 12px;
+    padding: 48px 32px;
+    border-left: 6px solid var(--bronze);
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    justify-content: space-between;
+  }
+  @media (min-width: 860px) {
+    .caixa-cta {
+      flex-direction: row;
+      align-items: center;
+      padding: 56px 48px;
+    }
+  }
+  .caixa-cta h2 {
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    max-width: 28ch;
+    margin-bottom: 10px;
+  }
+  .caixa-cta p {
+    color: #cbd5e1;
+    max-width: 52ch;
+  }
 
   /* ---------- Footer ---------- */
-  footer { background: #040e0a; color: #a3b1a8; padding: 80px 0 30px; }
-  .rodape-grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 48px; margin-bottom: 64px; }
-  footer h3 { color: var(--branco); font-size: 1.2rem; margin-bottom: 24px; font-weight: 600; }
-  footer ul { list-style: none; padding: 0; display: grid; gap: 12px; }
-  footer a:hover { color: var(--ouro); }
-  .direitos { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 24px; text-align: center; font-size: 0.9rem; }
+  footer {
+    background: #040d09;
+    color: #9ca3af;
+    padding: 64px 0 32px;
+    font-size: 0.92rem;
+  }
+  .rodape-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 40px;
+    margin-bottom: 48px;
+  }
+  footer h4 {
+    color: var(--branco);
+    font-size: 1rem;
+    margin-bottom: 14px;
+  }
+  footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 10px;
+  }
+  .rodape-base {
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 0.82rem;
+  }
+
+  /* ---------- Botão Flutuante WhatsApp ---------- */
+  .whats-flutuante {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 60;
+    background: #15803d;
+    color: var(--branco);
+    padding: 14px 20px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.92rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+  .whats-flutuante:hover {
+    background: #166534;
+    transform: translateY(-3px);
+  }
+  .whats-flutuante svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+  }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="container barra">
-    <a href="#" class="logo">
-      <span class="logo-marca">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 21h16L12 3Z"/><path d="M12 10v5"/></svg>
-      </span>
-      <span>Marco Terra<small>Topografia Avançada</small></span>
+  <div class="container nav-bar">
+    <a href="#inicio" class="marca">
+      <div class="marca-icone">SN</div>
+      <div class="marca-texto">
+        <strong>Serra Negra</strong>
+        <span>Agronegócio e Topografia</span>
+      </div>
     </a>
-    <nav>
-      <a href="#inicio">Início</a>
-      <a href="#servicos">Serviços</a>
+    <nav class="menu-links">
+      <a href="#situacoes">Quando Contratar</a>
+      <a href="#servicos">Serviços Técnicos</a>
+      <a href="#processo">Nosso Método</a>
       <a href="#contato">Contato</a>
+      <a href="https://wa.me/5500000000000?text=Ol%C3%A1,%20vim%20pelo%20site%20da%20Serra%20Negra%20e%20gostaria%20de%20analisar%20uma%20%C3%A1rea." target="_blank" rel="noopener" class="btn btn-primario btn-topo">Solicitar Análise</a>
     </nav>
   </div>
 </header>
 
 <main>
+  <!-- HERO -->
   <section class="hero" id="inicio">
-    <div class="hero-bg"></div>
-    <div class="hero-overlay"></div>
-    <div class="container reveal">
-      <span class="hero-badge">CNAE 74.20-0-02 e Regularização</span>
-      <h1>Precisão em campo.<br><span style="color: var(--ouro);">Segurança no papel.</span></h1>
-      <p>Mapeamento com drones, georreferenciamento e regularização ambiental. Documentamos sua propriedade rural com tecnologia de ponta para você produzir sem riscos.</p>
-      <div class="hero-acoes">
-        <a class="btn btn-ouro" href="https://wa.me/5500000000000" target="_blank">Falar com Especialista</a>
-        <a class="btn btn-outline" href="#servicos">Ver Serviços</a>
+    <div class="container">
+      <div class="selo-topo">Engenharia de Precisão &bull; Regularização Fundiária</div>
+      <h1>Sua terra medida ao centímetro. <span>Seu patrimônio blindado no papel.</span></h1>
+      <p>Aerofotogrametria com drones, georreferenciamento certificado no INCRA e regularização ambiental para produtores rurais que precisam liberar crédito, comercializar áreas ou garantir segurança jurídica.</p>
+      <div class="hero-botoes">
+        <a class="btn btn-primario" href="https://wa.me/5500000000000?text=Ol%C3%A1,%20gostaria%20de%20falar%20com%20um%20especialista%20sobre%20regulariza%C3%A7%C3%A3o%20rural." target="_blank" rel="noopener">Falar direto pelo WhatsApp</a>
+        <a class="btn btn-secundario" href="#servicos">Ver Soluções Técnicas</a>
+      </div>
+
+      <div class="barra-credibilidade">
+        <div class="item-cred">
+          <strong>Precisão Centimétrica</strong>
+          <span>Levantamento aéreo e GNSS RTK</span>
+        </div>
+        <div class="item-cred">
+          <strong>Padrão INCRA / SIGEF</strong>
+          <span>Plantas e memoriais prontos para certificação</span>
+        </div>
+        <div class="item-cred">
+          <strong>Foco em Destravar</strong>
+          <span>Documentação ágil para bancos e cartórios</span>
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- GATILHOS DE PROSPECÇÃO: O QUE FAZ O PRODUTOR FECHAR NEGÓCIO -->
+  <section id="situacoes">
+    <div class="container">
+      <div class="cabecalho-secao">
+        <span class="subtitulo-tag">Atuação Estratégica</span>
+        <h2>Em qual momento a propriedade precisa da nossa equipe?</h2>
+        <p>Mais do que entregar mapas, resolvemos entraves burocráticos que impedem o produtor de produzir, financiar ou negociar sua fazenda.</p>
+      </div>
+
+      <div class="grade-situacoes">
+        <div class="card-situacao">
+          <h3>Crédito e Financiamento Rural</h3>
+          <p>Bancos exigem CCIR, CAR atualizado e área georreferenciada sem pendências para liberar recursos de custeio e investimento.</p>
+        </div>
+        <div class="card-situacao">
+          <h3>Compra e Venda de Fazendas</h3>
+          <p>Antes de fechar negócio, garantimos a conferência real dos hectares em campo e a transferência limpa da matrícula no cartório.</p>
+        </div>
+        <div class="card-situacao">
+          <h3>Partilha, Sucessão e Divisão</h3>
+          <p>Desmembramento técnico de áreas rurais entre herdeiros ou sócios, com definição exata de divisas, reservas e servidões.</p>
+        </div>
+        <div class="card-situacao">
+          <h3>Exigências do INCRA e Cartório</h3>
+          <p>Retificação de área, resolução de sobreposições com vizinhos e adequação às normas vigentes de registro imobiliário.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVIÇOS (4 CARDS = SIMETRIA PERFEITA EM TABLET E DESKTOP) -->
   <section id="servicos">
     <div class="container">
-      <div class="secao-header reveal">
-        <h2>Inteligência Fundiária</h2>
-        <p>Soluções completas para propriedades rurais, exigidas por lei e pelo mercado.</p>
+      <div class="cabecalho-secao">
+        <span class="subtitulo-tag">Portfólio Técnico</span>
+        <h2>Engenharia e Documentação Ponta a Ponta</h2>
+        <p>Unimos tecnologia aérea em campo ao rigor documental exigido pelos órgãos estaduais e federais.</p>
       </div>
 
-      <div class="grade">
-        <article class="servico reveal delay-1">
-          <div class="icone"><svg viewBox="0 0 24 24"><circle cx="5" cy="5" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M7 6l2.5 2.5M17 6l-2.5 2.5M7 18l2.5-2.5M17 18l-2.5-2.5"/></svg></div>
-          <h3>Mapeamento Aéreo</h3>
-          <p>Uso de drones para aerofotogrametria. Modelos 3D, cálculo exato de áreas e altimetria em uma fração do tempo da topografia tradicional.</p>
+      <div class="grade-servicos">
+        <article class="card-servico">
+          <div>
+            <div class="servico-topo">
+              <div class="icone-box">
+                <svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><path d="M8.5 8.5l7 7M15.5 8.5l-7 7"/></svg>
+              </div>
+              <span class="numero-item">01</span>
+            </div>
+            <h3>Aerofotogrametria com Drones</h3>
+            <p>Mapeamento aéreo de alta resolução. Geramos ortomosaicos detalhados, modelos digitais de elevação (MDT/MDS), curvas de nível e cálculo exato de área útil em tempo reduzido.</p>
+          </div>
+          <a class="link-card" href="https://wa.me/5500000000000?text=Ol%C3%A1,%20quero%20saber%20mais%20sobre%20Mapeamento%20com%20Drones." target="_blank" rel="noopener">Cotar levantamento aéreo &rarr;</a>
         </article>
 
-        <article class="servico reveal delay-2">
-          <div class="icone"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-          <h3>Georreferenciamento</h3>
-          <p>Medição de limites conforme normas do INCRA. Planta, memorial descritivo e certificação no SIGEF para blindagem jurídica da terra.</p>
+        <article class="card-servico">
+          <div>
+            <div class="servico-topo">
+              <div class="icone-box">
+                <svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+              </div>
+              <span class="numero-item">02</span>
+            </div>
+            <h3>Georreferenciamento de Imóveis Rurais</h3>
+            <p>Demarcação de vértices e limites conforme a norma técnica do INCRA. Entrega de planta, memorial descritivo e certificação direta no sistema SIGEF para averbação em cartório.</p>
+          </div>
+          <a class="link-card" href="https://wa.me/5500000000000?text=Ol%C3%A1,%20preciso%20de%20Georreferenciamento%20para%20minha%20propriedade." target="_blank" rel="noopener">Solicitar análise da matrícula &rarr;</a>
         </article>
 
-        <article class="servico reveal delay-3">
-          <div class="icone"><svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg></div>
-          <h3>CAR e Ambiental</h3>
-          <p>Inscrição e retificação no Cadastro Ambiental Rural. Identificação precisa de Reserva Legal e APPs para liberação de crédito agrícola.</p>
+        <article class="card-servico">
+          <div>
+            <div class="servico-topo">
+              <div class="icone-box">
+                <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <span class="numero-item">03</span>
+            </div>
+            <h3>CAR e Regularização Ambiental</h3>
+            <p>Inscrição, retificação e acompanhamento do Cadastro Ambiental Rural. Delimitação técnica de Reserva Legal, APPs e uso consolidado do solo com base em imagens atualizadas.</p>
+          </div>
+          <a class="link-card" href="https://wa.me/5500000000000?text=Ol%C3%A1,%20preciso%20regularizar%20ou%20retificar%20o%20CAR." target="_blank" rel="noopener">Regularizar situação ambiental &rarr;</a>
+        </article>
+
+        <article class="card-servico">
+          <div>
+            <div class="servico-topo">
+              <div class="icone-box">
+                <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18M3 12h9"/></svg>
+              </div>
+              <span class="numero-item">04</span>
+            </div>
+            <h3>Desmembramento, Unificação e CCIR</h3>
+            <p>Projetos técnicos para divisão ou remembramento de matrículas, atualização cadastral junto ao INCRA (SNCR), ITR e suporte técnico completo junto ao Registro de Imóveis.</p>
+          </div>
+          <a class="link-card" href="https://wa.me/5500000000000?text=Ol%C3%A1,%20preciso%20de%20desmembramento%20ou%20regulariza%C3%A7%C3%A3o%20de%20documentos." target="_blank" rel="noopener">Consultar documentação &rarr;</a>
         </article>
       </div>
     </div>
   </section>
 
-  <section class="faixa reveal">
+  <!-- COMO FUNCIONA (TRANSMITE ORGANIZAÇÃO) -->
+  <section id="processo">
     <div class="container">
-      <h2>Sua terra vale milhões. A documentação dela não pode ser amadora.</h2>
-      <a class="btn btn-ouro" href="https://wa.me/5500000000000" target="_blank">Agendar Consultoria</a>
+      <div class="cabecalho-secao">
+        <span class="subtitulo-tag">Transparência do Início ao Fim</span>
+        <h2>Como conduzimos a regularização da sua área</h2>
+        <p>Você não fica no escuro esperando papéis. Nosso trabalho segue três etapas claras:</p>
+      </div>
+
+      <div class="grade-passos">
+        <div class="passo">
+          <span class="passo-num">ETAPA 1</span>
+          <h3>Diagnóstico da Documentação</h3>
+          <p>Analisamos a matrícula atual, situação no SIGEF, CAR e cadastros estaduais para identificar exatamente onde está o gargalo antes de ir a campo.</p>
+        </div>
+        <div class="passo">
+          <span class="passo-num">ETAPA 2</span>
+          <h3>Voo Técnico e Topografia</h3>
+          <p>Nossa equipe vai até a propriedade com drones de mapeamento e receptores GNSS de alta precisão para coletar a realidade física exata do terreno.</p>
+        </div>
+        <div class="passo">
+          <span class="passo-num">ETAPA 3</span>
+          <h3>Certificação e Trâmite</h3>
+          <p>Processamos as peças técnicas (plantas, memoriais e laudos) e acompanhamos o protocolo nos órgãos competentes até a conclusão.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA DE FECHAMENTO -->
+  <section class="cta-final">
+    <div class="container">
+      <div class="caixa-cta">
+        <div>
+          <h2>Foi indicado ou precisa destravar a documentação de uma fazenda?</h2>
+          <p>Envie o número da matrícula ou a localização da área pelo WhatsApp para fazermos uma avaliação técnica preliminar sem compromisso.</p>
+        </div>
+        <div>
+          <a class="btn btn-primario" href="https://wa.me/5500000000000?text=Ol%C3%A1,%20gostaria%20de%20solicitar%20uma%20avalia%C3%A7%C3%A3o%20preliminar%20de%20uma%20%C3%A1rea%20rural." target="_blank" rel="noopener">Iniciar Atendimento no WhatsApp</a>
+        </div>
+      </div>
     </div>
   </section>
 </main>
 
+<!-- FOOTER -->
 <footer id="contato">
   <div class="container">
-    <div class="rodape-grade reveal">
+    <div class="rodape-grid">
       <div>
-        <h3>Marco Terra</h3>
-        <p>Tecnologia aplicada à regularização de propriedades rurais.</p>
+        <h4>Serra Negra Agronegócio</h4>
+        <p>Regularização fundiária, topografia de precisão e aerofotogrametria para o setor produtivo rural.</p>
       </div>
       <div>
-        <h3>Contato</h3>
+        <h4>Atendimento Direto</h4>
         <ul>
-          <li>Palmas - Tocantins</li>
-          <li>contato@marcoterra.com.br</li>
+          <li>Palmas - Tocantins (Atuação em todo o Matopiba)</li>
+          <li>Tel / WhatsApp: (63) 00000-0000</li>
+          <li>contato@serranegraagro.com.br</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Dados Institucionais</h4>
+        <ul>
+          <li>Serra Negra Agronegócio LTDA</li>
+          <li>CNAE Principal: 74.20-0-02 (Produção de fotografias aéreas / Aerofotogrametria)</li>
+          <li>CNPJ: 00.000.000/0001-00</li>
         </ul>
       </div>
     </div>
-    <p class="direitos">&copy; 2026 Marco Terra Topografia. Todos os direitos reservados.</p>
+    <div class="rodape-base">
+      <span>&copy; 2026 Serra Negra Agronegócio LTDA. Todos os direitos reservados.</span>
+      <span>Engenharia e Regularização Rural</span>
+    </div>
   </div>
 </footer>
 
-<!-- Script para a mágica da animação de scroll -->
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-        }
-      });
-    }, { threshold: 0.1 });
+<!-- BOTÃO FLUTUANTE WHATSAPP -->
+<a href="https://wa.me/5500000000000?text=Ol%C3%A1,%20vim%20pelo%20site%20da%20Serra%20Negra%20Agroneg%C3%B3cio." class="whats-flutuante" target="_blank" rel="noopener" aria-label="Falar pelo WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M12.03 2c-5.52 0-10 4.48-10 10 0 1.77.46 3.43 1.27 4.88L2 22l5.25-1.25c1.4.76 3.01 1.2 4.78 1.2 5.52 0 10-4.48 10-10S17.55 2 12.03 2zm5.82 14.15c-.24.68-1.39 1.3-1.92 1.38-.5.08-1.13.11-1.83-.11-.42-.14-.97-.32-1.67-.62-2.94-1.27-4.86-4.25-5.01-4.45-.15-.2-1.2-1.59-1.2-3.04 0-1.45.76-2.16 1.03-2.46.27-.3.59-.37.79-.37.2 0 .4 0 .57.01.18.01.43-.07.67.51.24.59.82 2.02.89 2.17.07.15.12.32.02.52-.1.2-.15.32-.3.5-.15.17-.31.39-.44.52-.15.15-.3.31-.13.6.17.3.76 1.26 1.64 2.04 1.13 1 2.08 1.31 2.38 1.46.3.15.47.12.64-.07.17-.2.74-.86.94-1.16.2-.3.4-.25.67-.15.27.1 1.73.82 2.03.97.3.15.5.22.57.35.07.12.07.72-.17 1.4z"/></svg>
+  <span>Atendimento Rápido</span>
+</a>
 
-    document.querySelectorAll('.reveal').forEach((el) => {
-      observer.observe(el);
-    });
-  });
-</script>
 </body>
 </html>
